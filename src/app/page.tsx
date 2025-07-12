@@ -5,7 +5,6 @@ import MainSection from "../app/components/MainSection";
 import SideBar from "../app/components/SideBar";
 import TopBar from "../app/components/TopBar";
 import TutorInfo from "../app/components/TutorInfo";
-import ThemeSelector from "../app/components/ThemeSelector";
 
 export default function Home() {
   // const [theme, setTheme] = useState<string | null>(null);
