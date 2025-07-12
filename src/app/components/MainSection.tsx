@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import EmojiPicker from "emoji-picker-react";
+import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import dayjs from "dayjs";
 import responses from "../data/responses";
 
@@ -39,7 +39,7 @@ export default function MainSection() {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, typing]);
 
-  const handleEmojiClick = (emojiData: any) => {
+  const handleEmojiClick = (emojiData: EmojiClickData) => {
     setMessage((prev) => prev + emojiData.emoji);
   };
 
@@ -50,7 +50,10 @@ export default function MainSection() {
         if (lower.includes(keyword)) return res.reply;
       }
     }
-    return responses.find((r) => r.keywords.length === 0)?.reply || "I'm still learning!";
+    return (
+      responses.find((r) => r.keywords.length === 0)?.reply ||
+      "I'm still learning!"
+    );
   };
 
   const handleSendMessage = () => {
@@ -87,22 +90,37 @@ export default function MainSection() {
       <div className="flex-1 w-full max-w-4xl mx-auto mb-6 overflow-y-auto space-y-4 scrollbar-hide scroll-smooth">
         {messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center mt-20">
-            <img src="/avatar2.png" alt="Tutor" className="w-28 h-28 rounded-full object-cover mb-6" />
+            <img
+              src="/avatar2.png"
+              alt="Tutor"
+              className="w-28 h-28 rounded-full object-cover mb-6"
+            />
             <p className="text-lg font-medium max-w-md text-center">
               👋 Hello there! Ready to learn something new? <br />
               Start the conversation by saying hi or asking a question.
             </p>
-            <button className="mt-6 btn btn-primary btn-sm rounded-lg" onClick={() => setMessage("Hi")}>
+            <button
+              className="mt-6 btn btn-primary btn-sm rounded-lg"
+              onClick={() => setMessage("Hi")}
+            >
               Say Hi 👋
             </button>
           </div>
         ) : (
           <>
             {messages.map((msg, index) => (
-              <div key={index} className={`chat ${msg.sender === "user" ? "chat-end" : "chat-start"}`}>
+              <div
+                key={index}
+                className={`chat ${
+                  msg.sender === "user" ? "chat-end" : "chat-start"
+                }`}
+              >
                 <div className="chat-image avatar">
                   <div className="w-10 rounded-full">
-                    <img alt={msg.sender} src={msg.sender === "user" ? "/user.jpg" : "/avatar2.png"} />
+                    <img
+                      alt={msg.sender}
+                      src={msg.sender === "user" ? "/user.jpg" : "/avatar2.png"}
+                    />
                   </div>
                 </div>
                 <div
@@ -164,7 +182,10 @@ export default function MainSection() {
         </button>
 
         {showEmoji && (
-          <div ref={emojiRef} className="absolute bottom-14 left-0 w-full max-w-4xl z-[10] h-[60vh]">
+          <div
+            ref={emojiRef}
+            className="absolute bottom-14 left-0 w-full max-w-4xl z-[10] h-[60vh]"
+          >
             <EmojiPicker onEmojiClick={handleEmojiClick} />
           </div>
         )}
